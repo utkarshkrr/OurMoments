@@ -181,8 +181,7 @@ const PostDetails = () => {
                   <div className={classes.recommendedContent}>
                     <Typography variant="h6" style={{ fontWeight: '600' }}>{title}</Typography>
                     <Typography variant="subtitle2">{name}</Typography>
-                    <Typography variant="caption" color="textSecondary">{moment(createdAt).fromNow()}</Typography>
-                    <Typography variant="body2" color="textSecondary">{message.length > 30 ? `${message.substring(0, 50)}...` : message}</Typography>
+                    <Typography variant="body2" color="textSecondary">{message.length > 30 ? `${message.substring(0, 30)}...` : message}</Typography>
                   </div>
                 </div>
               ))}

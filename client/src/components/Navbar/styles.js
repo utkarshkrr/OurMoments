@@ -48,6 +48,10 @@ export default makeStyles((theme) => ({
   },
   image: {
     marginLeft: "20px",
+    height: "100px",
+    [theme.breakpoints.down('sm')]: {
+      height: "60px",
+    },
   },
   signIn: {
     backgroundColor: "#8a4108",
