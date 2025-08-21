@@ -34,7 +34,7 @@ const Home = () => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const searchRef = useRef(null);
 
-  //setting page title
+  //setting the page title
   useEffect(() => {
     document.title = "Our Moments";
   }, [1]);
