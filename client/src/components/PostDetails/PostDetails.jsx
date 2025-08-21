@@ -105,7 +105,7 @@ const PostDetails = () => {
               {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                 <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
                   {/* EDIT BUTTON */}
-                  <IconButton size="small" onClick={handleEditClick} style={{ color: 'black', marginRight: '5px' }}>
+                  <IconButton size="small" onClick={handleEditClick} style={{ color: '#704e2aff', marginRight: '5px' }}>
                     <EditIcon fontSize="small" />
                   </IconButton>
                   {/* DELETE BUTTON */}

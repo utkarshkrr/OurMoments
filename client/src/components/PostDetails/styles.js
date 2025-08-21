@@ -50,7 +50,9 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'left',
     gap: '20px',
-    marginTop: '20px',
+    marginTop: '20px', [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+    },
   },
   recommendedCard: {
     display: 'flex',
@@ -58,7 +60,7 @@ export default makeStyles((theme) => ({
     borderRadius: '15px',
     overflow: 'hidden',
     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-    backgroundColor:'#fffff8ff',
+    backgroundColor: '#fffff8ff',
     cursor: 'pointer',
     width: '250px',
     transition: 'transform 0.2s ease-in-out',
@@ -107,7 +109,7 @@ export default makeStyles((theme) => ({
     },
   },
   commentButton: {
-    color:'#fff',
+    color: '#fff',
     backgroundColor: '#8c6841ff',
     "&:hover": {
       backgroundColor: "#704e2aff",
