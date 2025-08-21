@@ -3,9 +3,8 @@ import { Paper, Typography, Divider, Button, IconButton, Dialog, Slide } from '@
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit'; // Import EditIcon
+import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -13,7 +12,7 @@ import useStyles from './styles';
 import { getPost, getPostsBySearch, likePost, deletePost } from '../../actions/posts';
 import Loader from '../loader/Loader';
 import CommentSection from './CommentSection';
-import Form from '../Form/Form'; // Import the Form component
+import Form from '../Form/Form';
 
 // Define the transition for the Dialog
 const Transition = React.forwardRef(function Transition(props, ref) {

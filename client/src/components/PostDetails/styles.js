@@ -7,12 +7,12 @@ export default makeStyles((theme) => ({
     width: '100%',
     maxWidth: '600px',
     maxHeight: '600px',
-
   },
   details: {
     display: 'flex',
     justifyContent: 'left',
-    margin:'4px 0'
+    margin: '4px 0',
+    flexWrap: 'wrap',
   },
   tagChip: {
     marginRight: '5px',
@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
     borderRadius: '4px',
     color: '#332e18',
     backgroundColor: '#fff1e3ff',
+    marginBottom: '5px'
   },
   card: {
     display: 'flex',
@@ -33,11 +34,15 @@ export default makeStyles((theme) => ({
     borderRadius: '20px',
     margin: '10px',
     flex: 1,
+    [theme.breakpoints.down('sm')]: {
+      order: 2,
+    },
   },
   imageSection: {
     marginLeft: '20px',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
+      order: 1,
     },
   },
   recommendedPosts: {
@@ -47,14 +52,13 @@ export default makeStyles((theme) => ({
     gap: '20px',
     marginTop: '20px',
   },
-
   recommendedCard: {
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '15px',
     overflow: 'hidden',
     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-     backgroundColor:'#fffff8ff',
+    backgroundColor:'#fffff8ff',
     cursor: 'pointer',
     width: '250px',
     transition: 'transform 0.2s ease-in-out',
@@ -62,25 +66,20 @@ export default makeStyles((theme) => ({
       transform: 'scale(1.02)',
     },
   },
-
   recommendedImage: {
     width: '100%',
     height: '200px',
     objectFit: 'cover',
   },
-
   recommendedContent: {
     padding: '15px',
     display: 'flex',
     flexDirection: 'column',
     gap: '5px',
   },
-
   loadingPaper: {
     display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', minHeight: '80vh',
   },
-
-
   commentsOuterContainer: {
     display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
   },
@@ -91,23 +90,22 @@ export default makeStyles((theme) => ({
   commentBox: {
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "#a4a4a4ff",   // default outline
+        borderColor: "#a4a4a4ff",  // default outline
       },
       "&:hover fieldset": {
-        borderColor: "#704e2a",   // on hover
+        borderColor: "#704e2a",  // on hover
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#8c6841",   // on focus
+        borderColor: "#8c6841",  // on focus
       },
     },
     "& .MuiInputLabel-root": {
-      color: "#8c6841",           // default label
+      color: "#8c6841",          // default label
     },
     "& .MuiInputLabel-root.Mui-focused": {
-      color: "#704e2a",           // focused label
+      color: "#704e2a",          // focused label
     },
   },
-
   commentButton: {
     color:'#fff',
     backgroundColor: '#8c6841ff',
