@@ -7,14 +7,6 @@ export default makeStyles((theme) => ({
     width: '100%',
     maxWidth: '600px',
     maxHeight: '600px',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: 'auto',
-      objectFit: 'cover',
-      maxWidth: '90%',
-      maxHeight: '60%',
-      alignSelf: 'center'
-    },
   },
   details: {
     display: 'flex',
@@ -66,7 +58,7 @@ export default makeStyles((theme) => ({
     borderRadius: '15px',
     overflow: 'hidden',
     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-    backgroundColor: '#fffff8ff',
+    backgroundColor:'#fffff8ff',
     cursor: 'pointer',
     width: '250px',
     transition: 'transform 0.2s ease-in-out',
@@ -115,7 +107,7 @@ export default makeStyles((theme) => ({
     },
   },
   commentButton: {
-    color: '#fff',
+    color:'#fff',
     backgroundColor: '#8c6841ff',
     "&:hover": {
       backgroundColor: "#704e2aff",
