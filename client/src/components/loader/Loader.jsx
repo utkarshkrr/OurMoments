@@ -10,6 +10,7 @@ const Loader = () => {
         <span className="steam"></span>
         <div className="cup-handle"></div>
       </div>
+      <span className="loadingMessage">ruko zara, sabr karo</span>
     </div>
   );
 };

@@ -12,6 +12,7 @@
   align-items: center;
   justify-content: center;
   background: transparent; /* let parent set bg if needed */
+  color: #ffefdb;
 }
 
 .cup {
@@ -86,4 +87,10 @@
   height: 40px;
   background: #8e5a3433;
   animation-delay: 1s;
+}
+
+.loadingMessage{
+  position: absolute;
+  z-index: 900;
+  color: currentColor;
 }
