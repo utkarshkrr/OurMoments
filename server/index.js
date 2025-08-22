@@ -11,8 +11,8 @@ const app = express();
 dotenv.config();
 
 
-app.use(bodyParser.json({limit: '50mb', extended: true}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '500mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
 app.use(cors());
 app.use('/posts', postRoutes);
 app.use('/users', userRoutes);

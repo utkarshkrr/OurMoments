@@ -63,9 +63,10 @@ export const createPost = async (req, res) => {
 
     let imageUrl = "";
     if (post.selectedFile) {
-      // Upload to Cloudinary
+      // Upload to Cloudinary with auto resource type
       const uploadedResponse = await cloudinary.uploader.upload(post.selectedFile, {
         folder: "memories_app",
+        resource_type: "auto", // This handles both images and videos
       });
       imageUrl = uploadedResponse.secure_url;
     }
@@ -94,9 +95,10 @@ export const updatePost = async (req, res) => {
 
   let imageUrl = post.selectedFile;
   if (post.selectedFile && post.selectedFile.startsWith("data")) {
-    // Only upload if it's a new base64 image
+    // Only upload if it's a new base64 image or video
     const uploadedResponse = await cloudinary.uploader.upload(post.selectedFile, {
       folder: "memories_app",
+      resource_type: "auto", // This handles both images and videos
     });
     imageUrl = uploadedResponse.secure_url;
   }
@@ -134,11 +136,13 @@ export const deletePost = async (req, res) => {
       console.log("Trying Cloudinary delete for:", post.selectedFile);
       try {
         const parts = post.selectedFile.split("/");
-        const filename = parts[parts.length - 1]; // e.g. abc123.jpg
+        const filename = parts[parts.length - 1]; // e.g. abc123.jpg or video.mp4
         const publicId = "memories_app/" + filename.split(".")[0];
 
-        await cloudinary.uploader.destroy(publicId);
-        console.log("Cloudinary deleted:", publicId);
+        // Determine resource type for deletion
+        const resourceType = filename.split(".").pop().toLowerCase() === 'mp4' ? 'video' : 'image';
+        await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
+        console.log(`Cloudinary deleted ${resourceType}:`, publicId);
       } catch (err) {
         console.error("Cloudinary delete error:", err.message);
       }
@@ -191,4 +195,3 @@ export const commentPost = async (req,res) => {
   const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
   res.json(updatedPost);
 }
-

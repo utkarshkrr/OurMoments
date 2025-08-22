@@ -8,7 +8,7 @@ import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
 const Form = ({ currentId, setCurrentId, closeForm }) => {
-    const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '' });
+    const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '', fileType: '' });
     const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null);
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -21,8 +21,9 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Updated validation: check if selectedFile exists for new posts
         if (!currentId && !postData.selectedFile) {
-            alert("Image is required to create a post!");
+            alert("An image or video is required to create a post!");
             return;
         }
         if (currentId) {
@@ -46,7 +47,7 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
 
     const clear = () => {
         setCurrentId(null);
-        setPostData({ title: '', message: '', tags: '', selectedFile: '' });
+        setPostData({ title: '', message: '', tags: '', selectedFile: '', fileType: '' });
     };
 
     return (
@@ -62,7 +63,7 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
                         variant="outlined"
                         label="Date"
                         type="date"
-                        value={postData.date || new Date().toISOString().split("T")[0]}
+                        value={postData.date ? new Date(postData.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]}
                         onChange={(e) => setPostData({ ...postData, date: e.target.value })}
                         style={{ flex: 1 }}
                     />
@@ -86,12 +87,20 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
                 <div className={classes.fileInput}>
                     <label style={{ width: '100%', cursor: 'pointer', textAlign: 'center' }}>
                         <FileBase
-                            required
+                            required={!currentId}
                             type="file"
                             multiple={false}
-                            onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })}
+                            onDone={({ base64, type }) => setPostData({ ...postData, selectedFile: base64, fileType: type })}
                             style={{ display: 'none' }}
                         />
+                         <Button
+                            variant="outlined"
+                            component="span"
+                            fullWidth
+                            color="primary"
+                        >
+                            {postData.selectedFile ? 'Change File' : 'Add Image or Video'}
+                        </Button>
                     </label>
                 </div>
                 <div className={classes.formButtonContainer}>

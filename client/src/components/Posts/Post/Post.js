@@ -29,38 +29,41 @@ const Post = ({ post, setCurrentId }) => {
 
     const formattedDate = `${day} ${month} ${year}`;
 
+    // Helper function to check if the file URL is a video
+    const isVideo = (url) => {
+        // Cloudinary video URLs typically include this path segment
+        return url && url.includes('/video/upload/');
+    };
 
     const handleLike = async () => {
-        dispatch(likePost(post._id))
+        dispatch(likePost(post._id));
 
         if (hasLikedPost) {
             setLikes(likes.filter((id) => id !== userID));
-        }
-        else {
+        } else {
             setLikes([...likes, userID]);
         }
-    }
+    };
 
     const Likes = () => {
         const likeColor = "#E91E63"; // red
 
         if (likes.length > 0) {
-            return likes.find((like) => like === userID)
-                ? (
-                    <>
-                        <FavoriteIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
-                        <span style={{ color: likeColor }}>
-                            {`${likes.length} like${likes.length > 1 ? 's' : ''}`}
-                        </span>
-                    </>
-                ) : (
-                    <>
-                        <FavoriteBorderIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
-                        <span style={{ color: likeColor }}>
-                            {`${likes.length} like${likes.length > 1 ? 's' : ''}`}
-                        </span>
-                    </>
-                );
+            return likes.find((like) => like === userID) ? (
+                <>
+                    <FavoriteIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
+                    <span style={{ color: likeColor }}>
+                        {`${likes.length} like${likes.length > 1 ? 's' : ''}`}
+                    </span>
+                </>
+            ) : (
+                <>
+                    <FavoriteBorderIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
+                    <span style={{ color: likeColor }}>
+                        {`${likes.length} like${likes.length > 1 ? 's' : ''}`}
+                    </span>
+                </>
+            );
         }
 
         return (
@@ -71,13 +74,18 @@ const Post = ({ post, setCurrentId }) => {
         );
     };
 
-
     const openPost = () => history.push(`/posts/${post._id}`);
 
     return (
         <Card className={classes.card} raised elevation={4}>
-            <ButtonBase className={classes.cardAction} onClick={openPost} >
-                <CardMedia className={classes.media} image={post.selectedFile || 'https://res.cloudinary.com/dzenc4jcg/image/upload/v1755523829/imageNotFound_cxnpkh.png'} title={post.title} />
+            <ButtonBase className={classes.cardAction} onClick={openPost}>
+                {/* Conditional rendering for media */}
+                {isVideo(post.selectedFile) ? (
+                    <video className={classes.media} src={post.selectedFile} controls muted playsInline></video>
+                ) : (
+                    <CardMedia className={classes.media} image={post.selectedFile || 'https://res.cloudinary.com/dzenc4jcg/image/upload/v1755523829/imageNotFound_cxnpkh.png'} title={post.title} />
+                )}
+
                 <div className={classes.overlay}>
                     <Typography variant="h6">{post.name}</Typography>
                     <Typography variant="body1" style={{ margin: '2px 0' }}>
@@ -86,7 +94,6 @@ const Post = ({ post, setCurrentId }) => {
                     <Typography variant="body1">
                         {post.location}
                     </Typography>
-
                 </div>
 
                 <Typography className={classes.title} variant="h5" gutterBottom style={{ margin: '5px' }}>{post.title}</Typography>
@@ -103,6 +110,7 @@ const Post = ({ post, setCurrentId }) => {
                     </Typography>
                 </CardContent>
             </ButtonBase>
+
             {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                 <div className={classes.overlay2} name="edit">
                     <Button
@@ -131,10 +139,9 @@ const Post = ({ post, setCurrentId }) => {
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 )}
-
             </CardActions>
         </Card>
     );
-}
+};
 
 export default Post;

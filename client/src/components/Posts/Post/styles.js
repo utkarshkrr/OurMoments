@@ -1,11 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles({
-  media: {
-    height: 0,
-    paddingTop: '56.25%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    backgroundBlendMode: 'darken',
+   media: {
+    // Set a fixed height for the container to ensure it's visible.
+    // This allows both images and videos to have a predictable size.
+    height: '250px',
+    width: '100%',
+    objectFit: 'cover', // This is key for both images and videos to fit correctly.
+    // Remove background-related properties that can interfere with the video element.
+    // These properties are specific to the CardMedia component's implementation.
   },
   border: {
     border: 'solid',
