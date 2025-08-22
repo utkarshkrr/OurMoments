@@ -97,7 +97,7 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
                             variant="outlined"
                             component="span"
                             fullWidth
-                            color="primary"
+                            style={{marginTop:"5px"}}
                         >
                             {postData.selectedFile ? 'Change File' : 'Add Image or Video'}
                         </Button>
