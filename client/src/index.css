@@ -4,7 +4,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    padding-bottom: 24px;
+    padding-bottom: 20px;
 }
 @media (max-width:600px) {
     body{

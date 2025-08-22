@@ -37,8 +37,8 @@ const Home = () => {
   //setting page title
   useEffect(() => {
     document.title = "Our Moments";
-  }, [1]);
-  
+  }, []);
+
   const searchPost = () => {
     if (search.trim() || tags.length) {
       dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
