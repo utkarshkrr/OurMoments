@@ -71,4 +71,21 @@ export default makeStyles({
     display: 'block',
     textAlign: 'initial',
   },
+  cancelDeleteButton: {
+    padding: '8px 16px',
+    color: '#fff',
+    backgroundColor: '#4a2f12ff',
+    "&:hover": {
+      backgroundColor: "#704e2aff",
+    },
+  },
+  confirmDeleteButton: {
+    padding: '8px 16px',
+    border: "1px solid #d9162aff",
+    color: "#d9162aff",
+    "&:hover": {
+      backgroundColor: "#d9162aff",
+      color: "#fff",
+    },
+  },
 });

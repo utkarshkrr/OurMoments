@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Typography, Divider, Button, IconButton, Dialog, Slide } from '@material-ui/core';
+import { 
+    Paper, Typography, Divider, Button, IconButton, Dialog, Slide,
+    DialogActions, DialogContent, DialogContentText, DialogTitle 
+} from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -28,10 +31,13 @@ const PostDetails = () => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const [likes, setLikes] = useState([]);
     const [openImage, setOpenImage] = useState(false);
-
+    
     // State for the edit form dialog
     const [currentId, setCurrentId] = useState(null);
     const [openForm, setOpenForm] = useState(false);
+
+    // Add state for the delete confirmation modal
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     // Helper function to check if the file URL is a video
     const isVideo = (url) => {
@@ -79,10 +85,21 @@ const PostDetails = () => {
             setLikes([...likes, userID]);
         }
     };
+    
+    // Handlers for the delete confirmation modal
+    const handleOpenDeleteDialog = (e) => {
+        e.stopPropagation(); // Prevent card actions from propagating
+        setOpenDeleteDialog(true);
+    };
 
-    const handleDelete = () => {
+    const handleCloseDeleteDialog = () => {
+        setOpenDeleteDialog(false);
+    };
+
+    const handleConfirmDelete = () => {
         dispatch(deletePost(post._id));
-        history.push('/');
+        history.push('/'); // Redirect after deletion
+        setOpenDeleteDialog(false);
     };
 
     const Likes = () => {
@@ -113,7 +130,7 @@ const PostDetails = () => {
                                         <EditIcon fontSize="small" />
                                     </IconButton>
                                     {/* DELETE BUTTON */}
-                                    <IconButton size="small" onClick={handleDelete} style={{ color: 'black' }}>
+                                    <IconButton size="small" onClick={handleOpenDeleteDialog} style={{ color: 'black' }}>
                                         <DeleteIcon fontSize="small" />
                                     </IconButton>
                                 </div>
@@ -122,7 +139,6 @@ const PostDetails = () => {
                             <Typography variant="h3" component="h2" style={{ fontWeight: 700 }}>
                                 {post.title}
                             </Typography>
-
                             <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0' }}>
                                 {(() => {
                                     const date = new Date(post.date);
@@ -133,21 +149,17 @@ const PostDetails = () => {
                                     return `${day} ${month} ${year}`;
                                 })()}
                             </Typography>
-
                             <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0' }}>
                                 {post.location}
                             </Typography>
-
                             <Typography variant="body2" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
                                 Created by: {post.name}
                             </Typography>
-
                             <Typography variant="subtitle1" color="textSecondary" gutterBottom>
                                 <div className={classes.details}>
                                     {post.tags.map((tag, index) => (<span key={index} className={classes.tagChip}>#{tag}</span>))}
                                 </div>
                             </Typography>
-
                             <div style={{ margin: '10px 0' }}>
                                 <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
                                     <Likes />
@@ -208,6 +220,29 @@ const PostDetails = () => {
             {/* EDIT FORM DIALOG */}
             <Dialog open={openForm} onClose={handleCloseForm} fullWidth maxWidth="sm" TransitionComponent={Transition}>
                 <Form currentId={currentId} setCurrentId={setCurrentId} closeForm={handleCloseForm} />
+            </Dialog>
+
+            {/* DELETE CONFIRMATION DIALOG */}
+            <Dialog
+                open={openDeleteDialog}
+                onClose={handleCloseDeleteDialog}
+                aria-labelledby="confirm-delete-title"
+                aria-describedby="confirm-delete-description"
+            >
+                <DialogTitle id="confirm-delete-title">{"Confirm Deletion"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="confirm-delete-description" >
+                        Are you sure you want to delete this post? This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions style={{ display: 'flex', justifyContent: 'center', marginBottom:'10px' }}>
+                    <Button onClick={handleConfirmDelete} className={classes.confirmDeleteButton} autoFocus>
+                        Delete
+                    </Button>
+                    <Button onClick={handleCloseDeleteDialog} className={classes.cancelDeleteButton}>
+                        Cancel
+                    </Button>
+                </DialogActions>
             </Dialog>
         </>
     );
