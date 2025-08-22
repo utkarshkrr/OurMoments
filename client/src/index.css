@@ -4,5 +4,10 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    padding-bottom: 96px;
+    padding-bottom: 18px;
+}
+@media (max-width:600px) {
+    body{
+        padding-bottom: 96px;
+    }
 }
