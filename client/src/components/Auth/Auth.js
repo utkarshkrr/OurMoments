@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Button, Paper, Grid, Typography, Container } from "@material-ui/core";
+// Added CircularProgress back to the import
+import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -7,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import useStyles from "./styles";
 import Input from "./Input";
 import { signin, signup } from "../../actions/auth";
+// Removed your custom loader import
 
 const initialState = {
   firstName: "",
@@ -23,10 +25,10 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Set the page title dynamically based on the form mode
   useEffect(() => {
     document.title = isSignup ? "Sign Up" : "Sign In";
   }, [isSignup]);
@@ -37,7 +39,7 @@ const Auth = () => {
   const validatePassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(formData.email)) {
@@ -58,10 +60,18 @@ const Auth = () => {
       return alert("Invalid access code.");
     }
 
-    if (isSignup) {
-      dispatch(signup(formData, history));
-    } else {
-      dispatch(signin(formData, history));
+    setIsLoading(true);
+
+    try {
+      if (isSignup) {
+        await dispatch(signup(formData, history));
+      } else {
+        await dispatch(signin(formData, history));
+      }
+    } catch (error) {
+        console.error("Authentication failed:", error);
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -97,17 +107,18 @@ const Auth = () => {
           <Grid container spacing={1}>
             {isSignup && (
               <>
-                <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
-                <Input name="lastName" label="Last Name" handleChange={handleChange} half required={false} />
+                <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half disabled={isLoading} />
+                <Input name="lastName" label="Last Name" handleChange={handleChange} half required={false} disabled={isLoading} />
               </>
             )}
-            <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
+            <Input name="email" label="Email Address" handleChange={handleChange} type="email" disabled={isLoading} />
             <Input
               name="password"
               label="Password"
               handleChange={handleChange}
               type={showPassword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
+              disabled={isLoading}
             />
             {isSignup && (
               <>
@@ -116,6 +127,7 @@ const Auth = () => {
                   label="Repeat Password"
                   handleChange={handleChange}
                   type="password"
+                  disabled={isLoading}
                 />
                 <Input
                   name="accessCode"
@@ -124,6 +136,7 @@ const Auth = () => {
                   type="password"
                   xs={12}
                   sm={4}
+                  disabled={isLoading}
                 />
                 <Input
                   name="secretCode"
@@ -132,21 +145,35 @@ const Auth = () => {
                   type="password"
                   xs={12}
                   sm={8}
+                  disabled={isLoading}
                 />
               </>
             )}
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            {isSignup ? "Sign Up" : "Sign In"}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : isSignup ? (
+              "Sign Up"
+            ) : (
+              "Sign In"
+            )}
           </Button>
           {!isSignup && (
-            <Button onClick={goToForgot} color="secondary" fullWidth>
+            <Button onClick={goToForgot} color="secondary" fullWidth disabled={isLoading}>
               Forgot Credentials?
             </Button>
           )}
           <Grid container justifyContent="center">
             <Grid item>
-              <Button onClick={switchMode}>
+              <Button onClick={switchMode} disabled={isLoading}>
                 {isSignup ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
               </Button>
             </Grid>

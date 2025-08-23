@@ -4,7 +4,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import decode from "jwt-decode";
 
-import logo from "../../images/logo.png";
+import logo from "../../images/logo.gif";
 import useStyles from "./styles";
 
 const Navbar = () => {
