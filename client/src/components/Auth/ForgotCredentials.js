@@ -46,12 +46,12 @@ const ForgotCredentials = () => {
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={5} style={{ marginTop: "120px" }}>
-        <Typography variant="h5">Reset Credentials</Typography>
+        <Typography variant="h4">Reset Credentials</Typography>
         <form
           className={`${classes.root} ${classes.form}`}
           onSubmit={handleSubmit}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             <Input
               name="email"
               label="Registered Email"
@@ -86,6 +86,9 @@ const ForgotCredentials = () => {
             className={classes.submit}
           >
             Update
+          </Button>
+          <Button fullWidth onClick={() => history.push('/auth')}>
+            Back to Sign In
           </Button>
         </form>
       </Paper>

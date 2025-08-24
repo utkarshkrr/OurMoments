@@ -18,8 +18,7 @@ const App = () => (
 
 const AppContent = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== "/auth"; // hide on auth
-
+  const showNavbar = location.pathname !== "/auth" && location.pathname !== "/forgot";
   return (
     <Container maxWidth="xl">
       {showNavbar && <Navbar />}
