@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
-// Added CircularProgress back to the import
-import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress } from "@material-ui/core";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Avatar,
+  Button,
+  Paper,
+  Grid,
+  Typography,
+  Container,
+  CircularProgress,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -8,7 +15,6 @@ import { useHistory } from "react-router-dom";
 import useStyles from "./styles";
 import Input from "./Input";
 import { signin, signup } from "../../actions/auth";
-// Removed your custom loader import
 
 const initialState = {
   firstName: "",
@@ -29,8 +35,23 @@ const Auth = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // ref to track if component is still mounted
+  const isMounted = useRef(true);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("profile"));
+    if (user) {
+      history.push("/posts");
+    }
+  }, [history]);
+
   useEffect(() => {
     document.title = isSignup ? "Sign Up" : "Sign In";
+
+    return () => {
+      isMounted.current = false;
+    };
   }, [isSignup]);
 
   const handleShowPassword = () => setShowPassword((prev) => !prev);
@@ -69,9 +90,9 @@ const Auth = () => {
         await dispatch(signin(formData, history));
       }
     } catch (error) {
-        console.error("Authentication failed:", error);
+      console.error("Authentication failed:", error);
     } finally {
-        setIsLoading(false);
+      if (isMounted.current) setIsLoading(false);
     }
   };
 
@@ -103,15 +124,38 @@ const Auth = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography variant="h5">{isSignup ? "Sign Up" : "Sign In"}</Typography>
-        <form className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
+        <form
+          className={`${classes.root} ${classes.form}`}
+          onSubmit={handleSubmit}
+        >
           <Grid container spacing={1}>
             {isSignup && (
               <>
-                <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half disabled={isLoading} />
-                <Input name="lastName" label="Last Name" handleChange={handleChange} half required={false} disabled={isLoading} />
+                <Input
+                  name="firstName"
+                  label="First Name"
+                  handleChange={handleChange}
+                  autoFocus
+                  half
+                  disabled={isLoading}
+                />
+                <Input
+                  name="lastName"
+                  label="Last Name"
+                  handleChange={handleChange}
+                  half
+                  required={false}
+                  disabled={isLoading}
+                />
               </>
             )}
-            <Input name="email" label="Email Address" handleChange={handleChange} type="email" disabled={isLoading} />
+            <Input
+              name="email"
+              label="Email Address"
+              handleChange={handleChange}
+              type="email"
+              disabled={isLoading}
+            />
             <Input
               name="password"
               label="Password"
@@ -167,14 +211,21 @@ const Auth = () => {
             )}
           </Button>
           {!isSignup && (
-            <Button onClick={goToForgot} color="secondary" fullWidth disabled={isLoading}>
+            <Button
+              onClick={goToForgot}
+              color="secondary"
+              fullWidth
+              disabled={isLoading}
+            >
               Forgot Credentials?
             </Button>
           )}
           <Grid container justifyContent="center">
             <Grid item>
               <Button onClick={switchMode} disabled={isLoading}>
-                {isSignup ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
+                {isSignup
+                  ? "Already have an account? Sign In"
+                  : "Don't have an account? Sign Up"}
               </Button>
             </Grid>
           </Grid>
