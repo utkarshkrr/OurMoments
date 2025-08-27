@@ -30,6 +30,9 @@ export default makeStyles({
     top: '20px',
     left: '20px',
     color: 'white',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    padding: '10px',
+    borderRadius: '10px',
   },
   overlay2: {
     position: 'absolute',
