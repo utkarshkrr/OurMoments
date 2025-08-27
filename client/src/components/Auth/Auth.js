@@ -184,7 +184,7 @@ const Auth = () => {
                 />
                 <Input
                   name="secretCode"
-                  label="Secret Code (to recover account later)"
+                  label="Recovery Code (to recover account later)"
                   handleChange={handleChange}
                   type="password"
                   xs={12}

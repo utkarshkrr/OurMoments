@@ -60,7 +60,7 @@ const ForgotCredentials = () => {
             />
             <Input
               name="secretCode"
-              label="Secret Code"
+              label="Recovery Code"
               handleChange={handleChange}
               type="password"
             />
