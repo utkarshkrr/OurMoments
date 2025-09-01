@@ -145,10 +145,22 @@ const Post = ({ post, setCurrentId }) => {
             )}
             <CardActions className={classes.cardActions} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
+                    <Button 
+                        size="small" 
+                        color="primary" 
+                        disabled={!user?.result} 
+                        onClick={handleLike}
+                        // Add a custom style to remove horizontal padding
+                        style={{ minWidth: 'auto', padding: '6px 4px' }}
+                    >
                         <Likes />
                     </Button>
-                    <Button size="small" onClick={handleCommentClick}>
+                    <Button 
+                        size="small" 
+                        onClick={handleCommentClick}
+                        // Add a custom style to remove horizontal padding
+                        style={{ minWidth: 'auto', padding: '6px 4px' }}
+                    >
                         <Comments />
                     </Button>
                 </div>
