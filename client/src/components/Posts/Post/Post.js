@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import {
     Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, IconButton,
-    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import ShareIcon from '@material-ui/icons/Share';
+import MuiAlert from '@material-ui/lab/Alert';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { deletePost, likePost } from '../../../actions/posts';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
@@ -21,6 +27,7 @@ const Post = ({ post, setCurrentId }) => {
     const history = useHistory();
     const [likes, setLikes] = useState(post?.likes);
     const [openDialog, setOpenDialog] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     const userID = user?.result.googleId || user?.result._id;
     const hasLikedPost = likes.find((like) => like === userID);
@@ -57,6 +64,24 @@ const Post = ({ post, setCurrentId }) => {
     const handleConfirmDelete = () => {
         dispatch(deletePost(post._id));
         setOpenDialog(false);
+    };
+
+    const handleShare = async (e) => {
+        e.stopPropagation();
+        const postUrl = `${window.location.origin}/posts/${post._id}`;
+        try {
+            await navigator.clipboard.writeText(postUrl);
+            setSnackbarOpen(true);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+    };
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
     };
 
     const Likes = () => {
@@ -143,14 +168,13 @@ const Post = ({ post, setCurrentId }) => {
                     </Button>
                 </div>
             )}
-            <CardActions className={classes.cardActions} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <CardActions className={classes.cardActions} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Button 
                         size="small" 
                         color="primary" 
                         disabled={!user?.result} 
                         onClick={handleLike}
-                        // Add a custom style to remove horizontal padding
                         style={{ minWidth: 'auto', padding: '6px 4px' }}
                     >
                         <Likes />
@@ -158,11 +182,17 @@ const Post = ({ post, setCurrentId }) => {
                     <Button 
                         size="small" 
                         onClick={handleCommentClick}
-                        // Add a custom style to remove horizontal padding
                         style={{ minWidth: 'auto', padding: '6px 4px' }}
                     >
                         <Comments />
                     </Button>
+                    <IconButton 
+                        size="small"
+                        onClick={handleShare}
+                        style={{ color: '#704e2aff', padding: '4px' }}
+                    >
+                        <ShareIcon fontSize="small" style={{transform:'scale(0.9)'}} />
+                    </IconButton>
                 </div>
                 {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                     <IconButton
@@ -195,6 +225,11 @@ const Post = ({ post, setCurrentId }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                <Alert onClose={handleSnackbarClose} severity="success" classes={{ root: classes.brownAlert }}>
+                    Link copied to clipboard!
+                </Alert>
+            </Snackbar>
         </Card>
     );
 };

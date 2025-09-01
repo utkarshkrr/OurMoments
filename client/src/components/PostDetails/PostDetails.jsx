@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { 
+import {
     Paper, Typography, Divider, Button, IconButton, Dialog, Slide,
-    DialogActions, DialogContent, DialogContentText, DialogTitle 
+    DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -9,6 +9,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import ShareIcon from '@material-ui/icons/Share'; // Import ShareIcon
+import MuiAlert from '@material-ui/lab/Alert'; // For the Snackbar message
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 
@@ -21,6 +23,11 @@ import Form from '../Form/Form';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+// Helper component for the alert message
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const PostDetails = () => {
     const { post, posts, isLoading } = useSelector((state) => state.posts);
@@ -35,7 +42,8 @@ const PostDetails = () => {
     const [currentId, setCurrentId] = useState(null);
     const [openForm, setOpenForm] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    
+    const [snackbarOpen, setSnackbarOpen] = useState(false); // New state for Snackbar
+
     // Create a ref for the comment section
     const commentsRef = useRef(null);
 
@@ -47,19 +55,16 @@ const PostDetails = () => {
         dispatch(getPost(id));
     }, [id, dispatch]);
 
-    // The fix is here: add location.pathname to the dependency array
     useEffect(() => {
         if (post) {
             setLikes(post.likes);
             dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
-            
-            // Check if we need to scroll to comments
+
             if (location.state?.scrollToComments && commentsRef.current) {
-                const yOffset = -120; // Adjust this value based on your navbar's height
+                const yOffset = -120;
                 const y = commentsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({ top: y, behavior: 'smooth' });
-                
-                // Reset the state to prevent scrolling on subsequent renders
+
                 history.replace(location.pathname, {});
             }
         }
@@ -94,7 +99,7 @@ const PostDetails = () => {
             setLikes([...likes, userID]);
         }
     };
-    
+
     const handleOpenDeleteDialog = (e) => {
         e.stopPropagation();
         setOpenDeleteDialog(true);
@@ -126,22 +131,39 @@ const PostDetails = () => {
     const openPost = (_id) => history.push(`/posts/${_id}`);
 
     const commentCountText = () => {
-      const count = post.comments.length;
-      if (count === 0) {
-        return "Comment";
-      } else if (count === 1) {
-        return "1 comment";
-      } else {
-        return `${count} comments`;
-      }
+        const count = post.comments.length;
+        if (count === 0) {
+            return "Comment";
+        } else if (count === 1) {
+            return "1 comment";
+        } else {
+            return `${count} comments`;
+        }
     };
 
     const handleCommentClick = () => {
-      if (commentsRef.current) {
-        const yOffset = -120; // Adjust this value to match your navbar's height
-        const y = commentsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
+        if (commentsRef.current) {
+            const yOffset = -120;
+            const y = commentsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    };
+
+    const handleShare = async () => {
+        const postUrl = `${window.location.origin}/posts/${post._id}`;
+        try {
+            await navigator.clipboard.writeText(postUrl);
+            setSnackbarOpen(true);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+    };
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
     };
 
     return (
@@ -189,19 +211,28 @@ const PostDetails = () => {
                                 <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
                                     <Likes />
                                 </Button>
-                                {/* The new comment button */}
                                 <Button size="small" disabled={!user?.result} onClick={handleCommentClick}>
-                                   <div style={{ display: 'flex', alignItems: 'center', color: '#704e2aff' }}>
-                                     <ChatBubbleOutlineIcon fontSize="small" />&nbsp;
-                                     <span>{commentCountText()}</span>
-                                   </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', color: '#704e2aff' }}>
+                                        <ChatBubbleOutlineIcon fontSize="small" />&nbsp;
+                                        <span>{commentCountText()}</span>
+                                    </div>
+                                </Button>
+                                {/* Share button */}
+                                <Button
+                                    size="small"
+                                    onClick={handleShare}
+                                    style={{ color: '#704e2aff' }}
+                                    disabled={!user?.result}
+                                >
+                                    <ShareIcon fontSize="small" style={{transform:'scale(0.9)'}} />
+                                    &nbsp;SHARE
                                 </Button>
                             </div>
                             <Divider style={{ margin: '20px 0' }} />
                             <Typography variant="h5" gutterBottom style={{ fontWeight: 600 }}>The Story</Typography>
                             <Typography variant="body1" component="p" style={{ lineHeight: 1.7 }}>{post.message}</Typography>
                             <Divider style={{ margin: '20px 0' }} />
-                            <div ref={commentsRef}> 
+                            <div ref={commentsRef}>
                                 <CommentSection post={post} />
                             </div>
                             <Divider style={{ margin: '20px 0' }} />
@@ -267,7 +298,7 @@ const PostDetails = () => {
                         Are you sure you want to delete this post? This action cannot be undone.
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions style={{ display: 'flex', justifyContent: 'center', marginBottom:'10px' }}>
+                <DialogActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
                     <Button onClick={handleConfirmDelete} className={classes.confirmDeleteButton} autoFocus>
                         Delete
                     </Button>
@@ -276,6 +307,13 @@ const PostDetails = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {/* The Snackbar for feedback */}
+            <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                <Alert onClose={handleSnackbarClose} severity="success" classes={{ root: classes.brownAlert }}>
+                    Link copied to clipboard!
+                </Alert>
+            </Snackbar>
         </>
     );
 };
