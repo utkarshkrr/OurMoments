@@ -59,7 +59,6 @@ export default makeStyles((theme) => ({
       backgroundColor: "#602d06ff",
     },
   },
-  // Reverted to original style
   logout: {
     border: "1px solid #d9162aff",
     color: "#d9162aff",
@@ -67,13 +66,62 @@ export default makeStyles((theme) => ({
       backgroundColor: "#d9162aff",
       color: "#fff",
     },
+    marginTop: '10px',
   },
-  // NEW styles for the tooltip
   customTooltip: {
     backgroundColor: '#fefeebff',
     border: '1px solid #f7f798ff',
   },
   customArrow: {
     color: '#fefeebff',
+  },
+  tooltipContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '10px',
+    minWidth: '150px'
+  },
+  tooltipHeading: {
+    fontSize: '0.8rem',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    marginBottom: '5px'
+  },
+  tooltipText: {
+    color: '#602d06ff',
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    marginTop: '5px',
+  },
+  tooltipEmail: {
+    color: '#602d06ff',
+    fontSize: '0.85rem',
+    marginTop: '5px',
+  },
+  divider: {
+    width: '100%',
+    margin: '10px 0'
+  },
+  cancelLogoutButton: {
+    padding: '8px 16px',
+    color: '#fff',
+    backgroundColor: '#4a2f12ff',
+    "&:hover": {
+      backgroundColor: "#704e2aff",
+    },
+  },
+  confirmLogoutButton: {
+    padding: '8px 16px',
+    border: "1px solid #d9162aff",
+    color: "#d9162aff",
+    "&:hover": {
+      backgroundColor: "#d9162aff",
+      color: "#fff",
+    },
+  },
+  dialogActions: {
+    justifyContent: 'center',
+    padding: '8px 24px',
   },
 }));
