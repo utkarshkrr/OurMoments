@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
     AppBar, Button, Toolbar, Typography, Avatar, Tooltip, ClickAwayListener, Box, Divider,
     Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions 
@@ -19,6 +19,9 @@ const Navbar = () => {
     const history = useHistory();
     const location = useLocation();
 
+    // Destructure the token from the user object to create a simple, trackable dependency
+    const token = user?.token;
+
     const handleTooltipClose = () => {
         setOpen(false);
     };
@@ -35,21 +38,22 @@ const Navbar = () => {
     const handleCloseLogoutDialog = () => {
         setOpenLogoutDialog(false);
     };
-
-    const handleConfirmLogout = () => {
+    
+    const handleConfirmLogout = useCallback(() => {
         dispatch({ type: "LOGOUT" });
         setUser(null);
         history.push("/");
         handleTooltipClose();
         handleCloseLogoutDialog();
-    };
+    }, [dispatch, history]);
 
+    // The useEffect now has simple, well-defined dependencies
     useEffect(() => {
-        const token = user?.token;
-
         if (token) {
             const decodedToken = decode(token);
-            if (decodedToken.exp * 1000 < new Date().getTime()) handleConfirmLogout();
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                handleConfirmLogout();
+            }
         }
 
         const storedProfile = JSON.parse(localStorage.getItem("profile"));
@@ -59,7 +63,7 @@ const Navbar = () => {
         } else {
             setUser(storedProfile);
         }
-    }, [location]);
+    }, [location, handleConfirmLogout, token]);
 
     return (
         <AppBar className={classes.appBar} color="inherit">
