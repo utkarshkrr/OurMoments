@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { 
-  Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, IconButton,
-  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle 
+import {
+    Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, IconButton,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -19,7 +20,6 @@ const Post = ({ post, setCurrentId }) => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const history = useHistory();
     const [likes, setLikes] = useState(post?.likes);
-    // Add state for the modal
     const [openDialog, setOpenDialog] = useState(false);
 
     const userID = user?.result.googleId || user?.result._id;
@@ -45,51 +45,58 @@ const Post = ({ post, setCurrentId }) => {
         }
     };
 
-    // Open the confirmation dialog
     const handleOpenDialog = (e) => {
-        e.stopPropagation(); // Prevents the ButtonBase from triggering
+        e.stopPropagation();
         setOpenDialog(true);
     };
 
-    // Close the dialog without deleting
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
 
-    // Handle deletion after confirmation
     const handleConfirmDelete = () => {
         dispatch(deletePost(post._id));
-        setOpenDialog(false); // Close the dialog after deletion
+        setOpenDialog(false);
     };
 
     const Likes = () => {
         const likeColor = "#E91E63";
-        if (likes.length > 0) {
-            return likes.find((like) => like === userID) ? (
-                <>
-                    <FavoriteIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
-                    <span style={{ color: likeColor }}>
-                        {`${likes.length} like${likes.length > 1 ? 's' : ''}`}
-                    </span>
-                </>
-            ) : (
-                <>
-                    <FavoriteBorderIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
-                    <span style={{ color: likeColor }}>
-                        {`${likes.length} like${likes.length > 1 ? 's' : ''}`}
-                    </span>
-                </>
-            );
-        }
         return (
             <>
-                <FavoriteBorderIcon fontSize="small" style={{ color: likeColor }} />&nbsp;
-                <span style={{ color: likeColor }}>Like</span>
+                {hasLikedPost ? (
+                    <FavoriteIcon fontSize="small" style={{ color: likeColor }} />
+                ) : (
+                    <FavoriteBorderIcon fontSize="small" style={{ color: likeColor }} />
+                )}
+                {likes.length > 0 && (
+                    <span style={{ color: likeColor, marginLeft: '4px' }}>
+                        {likes.length}
+                    </span>
+                )}
             </>
         );
     };
 
+    const Comments = () => {
+        const commentColor = "#704e2aff";
+        return (
+            <div style={{ display: 'flex', alignItems: 'center', color: commentColor }}>
+                <ChatBubbleOutlineIcon fontSize="small" />
+                {post.comments.length > 0 && (
+                    <span style={{ marginLeft: '4px' }}>
+                        {post.comments.length}
+                    </span>
+                )}
+            </div>
+        );
+    };
+
     const openPost = () => history.push(`/posts/${post._id}`);
+
+    const handleCommentClick = (e) => {
+        e.stopPropagation();
+        history.push(`/posts/${post._id}`, { scrollToComments: true });
+    };
 
     return (
         <Card className={classes.card} raised elevation={4}>
@@ -136,21 +143,25 @@ const Post = ({ post, setCurrentId }) => {
                     </Button>
                 </div>
             )}
-            <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
-                    <Likes />
-                </Button>
+            <CardActions className={classes.cardActions} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
+                        <Likes />
+                    </Button>
+                    <Button size="small" onClick={handleCommentClick}>
+                        <Comments />
+                    </Button>
+                </div>
                 {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                     <IconButton
                         size="small"
-                        onClick={handleOpenDialog} // Open the dialog on click
+                        onClick={handleOpenDialog}
                         style={{ color: 'black', padding: '4px' }}
                     >
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 )}
             </CardActions>
-            {/* Confirmation Dialog */}
             <Dialog
                 open={openDialog}
                 onClose={handleCloseDialog}
@@ -163,7 +174,7 @@ const Post = ({ post, setCurrentId }) => {
                         Are you sure you want to delete this post? This action cannot be undone.
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions style={{display:'flex', justifyContent:'center', marginBottom:'10px'}}>
+                <DialogActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
                     <Button onClick={handleConfirmDelete} className={classes.confirmDeleteButton} autoFocus>
                         Delete
                     </Button>

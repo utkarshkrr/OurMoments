@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { 
     Paper, Typography, Divider, Button, IconButton, Dialog, Slide,
     DialogActions, DialogContent, DialogContentText, DialogTitle 
@@ -8,8 +8,9 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 
 import useStyles from './styles';
 import { getPost, getPostsBySearch, likePost, deletePost } from '../../actions/posts';
@@ -17,7 +18,6 @@ import Loader from '../loader/Loader';
 import CommentSection from './CommentSection';
 import Form from '../Form/Form';
 
-// Define the transition for the Dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -26,20 +26,19 @@ const PostDetails = () => {
     const { post, posts, isLoading } = useSelector((state) => state.posts);
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     const classes = useStyles();
     const { id } = useParams();
     const user = JSON.parse(localStorage.getItem('profile'));
     const [likes, setLikes] = useState([]);
     const [openImage, setOpenImage] = useState(false);
-    
-    // State for the edit form dialog
     const [currentId, setCurrentId] = useState(null);
     const [openForm, setOpenForm] = useState(false);
-
-    // Add state for the delete confirmation modal
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    
+    // Create a ref for the comment section
+    const commentsRef = useRef(null);
 
-    // Helper function to check if the file URL is a video
     const isVideo = (url) => {
         return url && url.includes('/video/upload/');
     };
@@ -52,8 +51,18 @@ const PostDetails = () => {
         if (post) {
             setLikes(post.likes);
             dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
+            
+            // Check if we need to scroll to comments
+            if (location.state?.scrollToComments && commentsRef.current) {
+                const yOffset = -120; // Adjust this value based on your navbar's height
+                const y = commentsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+                
+                // Reset the state to prevent scrolling on subsequent renders
+                history.replace(location.pathname, {});
+            }
         }
-    }, [post, dispatch]);
+    }, [post, dispatch, location.state, history]);
 
     if (!post) return null;
 
@@ -67,7 +76,6 @@ const PostDetails = () => {
     const userID = user?.result?.googleId || user?.result?._id;
     const hasLikedPost = likes.find((like) => like === userID);
 
-    // Handlers for the edit form
     const handleEditClick = () => {
         setCurrentId(post._id);
         setOpenForm(true);
@@ -86,9 +94,8 @@ const PostDetails = () => {
         }
     };
     
-    // Handlers for the delete confirmation modal
     const handleOpenDeleteDialog = (e) => {
-        e.stopPropagation(); // Prevent card actions from propagating
+        e.stopPropagation();
         setOpenDeleteDialog(true);
     };
 
@@ -98,7 +105,7 @@ const PostDetails = () => {
 
     const handleConfirmDelete = () => {
         dispatch(deletePost(post._id));
-        history.push('/'); // Redirect after deletion
+        history.push('/');
         setOpenDeleteDialog(false);
     };
 
@@ -117,6 +124,25 @@ const PostDetails = () => {
     const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
     const openPost = (_id) => history.push(`/posts/${_id}`);
 
+    const commentCountText = () => {
+      const count = post.comments.length;
+      if (count === 0) {
+        return "Comment";
+      } else if (count === 1) {
+        return "1 comment";
+      } else {
+        return `${count} comments`;
+      }
+    };
+
+    const handleCommentClick = () => {
+      if (commentsRef.current) {
+        const yOffset = -120; // Adjust this value to match your navbar's height
+        const y = commentsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    };
+
     return (
         <>
             <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff8ff', }} elevation={6}>
@@ -125,11 +151,9 @@ const PostDetails = () => {
                         <div style={{ padding: '20px', borderRadius: '15px', backgroundColor: '#fafafa', position: 'relative' }}>
                             {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                                 <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
-                                    {/* EDIT BUTTON */}
                                     <IconButton size="small" onClick={handleEditClick} style={{ color: '#704e2aff', marginRight: '5px' }}>
                                         <EditIcon fontSize="small" />
                                     </IconButton>
-                                    {/* DELETE BUTTON */}
                                     <IconButton size="small" onClick={handleOpenDeleteDialog} style={{ color: 'black' }}>
                                         <DeleteIcon fontSize="small" />
                                     </IconButton>
@@ -160,16 +184,25 @@ const PostDetails = () => {
                                     {post.tags.map((tag, index) => (<span key={index} className={classes.tagChip}>#{tag}</span>))}
                                 </div>
                             </Typography>
-                            <div style={{ margin: '10px 0' }}>
+                            <div style={{ margin: '10px 0', display: 'flex', gap: '20px' }}>
                                 <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
                                     <Likes />
+                                </Button>
+                                {/* The new comment button */}
+                                <Button size="small" disabled={!user?.result} onClick={handleCommentClick}>
+                                   <div style={{ display: 'flex', alignItems: 'center', color: '#704e2aff' }}>
+                                     <ChatBubbleOutlineIcon fontSize="small" />&nbsp;
+                                     <span>{commentCountText()}</span>
+                                   </div>
                                 </Button>
                             </div>
                             <Divider style={{ margin: '20px 0' }} />
                             <Typography variant="h5" gutterBottom style={{ fontWeight: 600 }}>The Story</Typography>
                             <Typography variant="body1" component="p" style={{ lineHeight: 1.7 }}>{post.message}</Typography>
                             <Divider style={{ margin: '20px 0' }} />
-                            <CommentSection post={post} />
+                            <div ref={commentsRef}> 
+                                <CommentSection post={post} />
+                            </div>
                             <Divider style={{ margin: '20px 0' }} />
                         </div>
                     </div>
@@ -217,12 +250,10 @@ const PostDetails = () => {
                 )}
             </Paper>
 
-            {/* EDIT FORM DIALOG */}
             <Dialog open={openForm} onClose={handleCloseForm} fullWidth maxWidth="sm" TransitionComponent={Transition}>
                 <Form currentId={currentId} setCurrentId={setCurrentId} closeForm={handleCloseForm} />
             </Dialog>
 
-            {/* DELETE CONFIRMATION DIALOG */}
             <Dialog
                 open={openDeleteDialog}
                 onClose={handleCloseDeleteDialog}
