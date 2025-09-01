@@ -47,6 +47,7 @@ const PostDetails = () => {
         dispatch(getPost(id));
     }, [id, dispatch]);
 
+    // The fix is here: add location.pathname to the dependency array
     useEffect(() => {
         if (post) {
             setLikes(post.likes);
@@ -62,7 +63,7 @@ const PostDetails = () => {
                 history.replace(location.pathname, {});
             }
         }
-    }, [post, dispatch, location.state, history]);
+    }, [post, dispatch, location.state, history, location.pathname]);
 
     if (!post) return null;
 
