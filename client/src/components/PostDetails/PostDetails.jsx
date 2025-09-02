@@ -3,14 +3,16 @@ import {
     Paper, Typography, Divider, Button, IconButton, Dialog, Slide,
     DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar
 } from '@material-ui/core';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import ShareIcon from '@material-ui/icons/Share'; // Import ShareIcon
-import MuiAlert from '@material-ui/lab/Alert'; // For the Snackbar message
+import ShareIcon from '@material-ui/icons/Share';
+import MuiAlert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 
@@ -186,7 +188,9 @@ const PostDetails = () => {
                             <Typography variant="h3" component="h2" style={{ fontWeight: 700 }}>
                                 {post.title}
                             </Typography>
-                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0' }}>
+                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display:'flex', alignItems:'center' }}>
+                                <CalendarTodayIcon style={{fontSize:'1.2rem'}} />
+                                &nbsp;
                                 {(() => {
                                     const date = new Date(post.date);
                                     const day = date.getDate();
@@ -196,11 +200,13 @@ const PostDetails = () => {
                                     return `${day} ${month} ${year}`;
                                 })()}
                             </Typography>
-                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0' }}>
+                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display:'flex', alignItems:'center' }}>
+                                <LocationOnIcon style={{fontSize:'1.2rem'}} />
+                                &nbsp;
                                 {post.location}
                             </Typography>
-                            <Typography variant="body2" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
-                                Created by: {post.name}
+                            <Typography variant="body1" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
+                                Created by: <span style={{fontWeight:'700'}}> {post.name} </span>
                             </Typography>
                             <Typography variant="subtitle1" color="textSecondary" gutterBottom>
                                 <div className={classes.details}>
@@ -217,14 +223,14 @@ const PostDetails = () => {
                                         <span>{commentCountText()}</span>
                                     </div>
                                 </Button>
-                                {/* Share button */}
+
                                 <Button
                                     size="small"
                                     onClick={handleShare}
                                     style={{ color: '#704e2aff' }}
                                     disabled={!user?.result}
                                 >
-                                    <ShareIcon fontSize="small" style={{transform:'scale(0.9)'}} />
+                                    <ShareIcon fontSize="small" style={{ transform: 'scale(0.9)' }} />
                                     &nbsp;SHARE
                                 </Button>
                             </div>

@@ -3,6 +3,8 @@ import {
     Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, IconButton,
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar
 } from '@material-ui/core';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -133,10 +135,14 @@ const Post = ({ post, setCurrentId }) => {
                 )}
                 <div className={classes.overlay}>
                     <Typography variant="h6">{post.name}</Typography>
-                    <Typography variant="body1" style={{ margin: '2px 0' }}>
+                    <Typography variant="body2" style={{ margin: '2px 0' }}>
+                        <CalendarTodayIcon style={{fontSize:'0.8rem'}} />
+                        &nbsp;
                         {formattedDate}
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body2">
+                        <LocationOnIcon style={{fontSize:'0.8rem'}} />
+                        &nbsp;
                         {post.location}
                     </Typography>
                 </div>
