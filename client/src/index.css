@@ -1,13 +1,37 @@
 body {
-    background-image: url('./images/Background.png');
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    padding-bottom: 20px;
+  margin: 0;
+  height: 100vh;
+  overflow-x: hidden;
+
+  /* PNG on top, animated gradient behind */
+  background: 
+    url('./images/BackgroundClear.png') center/cover repeat fixed,
+    linear-gradient(-45deg, 
+      #fdfcf4,  /* near-white cream */
+      #f5f5dc,  /* beige */
+      #f0e5cf,  /* light sand */
+      #e6d5b8,  /* warm beige */
+      #dbcbb5,  /* pale mocha */
+      #d1bfa3,  /* camel */
+      #cbb994,  /* earthy beige */
+      #bfa786,  /* soft brown */
+      #a68c6c   /* warm coffee */
+    );
+  background-size: cover, 600% 600%;
+  background-attachment: fixed, fixed;
+
+  animation: gradientShift 15s ease infinite;
+  padding-bottom: 20px;
 }
+
+@keyframes gradientShift {
+  0%   { background-position: center, 0% 50%; }
+  50%  { background-position: center, 100% 50%; }
+  100% { background-position: center, 0% 50%; }
+}
+
 @media (max-width:600px) {
-    body{
-        padding-bottom: 96px;
-    }
+  body {
+    padding-bottom: 96px;
+  }
 }
