@@ -7,15 +7,10 @@ body {
   background: 
     url('./images/BackgroundClear.png') center/cover repeat fixed,
     linear-gradient(-45deg, 
-      #fdfcf4,  /* near-white cream */
-      #f5f5dc,  /* beige */
-      #f0e5cf,  /* light sand */
-      #e6d5b8,  /* warm beige */
-      #dbcbb5,  /* pale mocha */
-      #d1bfa3,  /* camel */
-      #cbb994,  /* earthy beige */
-      #bfa786,  /* soft brown */
-      #a68c6c   /* warm coffee */
+      #ffffea,
+      #f5f5dc,
+      #cbb994,
+      #a68c6c
     );
   background-size: cover, 600% 600%;
   background-attachment: fixed, fixed;
