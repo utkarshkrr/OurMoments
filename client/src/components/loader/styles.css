@@ -2,8 +2,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
-
+.loader-container{
+  position: fixed;
+  top: -20%; bottom: -20%; left: -20%; right: -20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  background-color: #f5f5dc;
+  transition: all 1s;
+}
 .coffee-loader {
   margin-top: 200px;
   height: 100%;
@@ -11,8 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent; /* let parent set bg if needed */
-  color: #fffff3;
+  background: transparent;
+  color: #f5f5dc;
 }
 
 .cup {
