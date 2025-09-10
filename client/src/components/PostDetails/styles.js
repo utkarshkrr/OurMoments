@@ -131,12 +131,26 @@ export default makeStyles((theme) => ({
             backgroundColor: "#d9162aff",
             color: "#fff",
         },
-    },// New style for the brown Snackbar Alert
-  brownAlert: {
-    backgroundColor: '#704e2aff', 
-    color: '#fff',
-    '& .MuiAlert-icon': {
-      color: 'white !important',
     },
-  },
+    // New style for the brown Snackbar Alert
+    brownAlert: {
+        backgroundColor: '#704e2aff',
+        color: '#fff',
+        '& .MuiAlert-icon': {
+            color: 'white !important',
+        },
+    },
+    // Flex container for the buttons, wrapping on small screens
+    buttonContainer: {
+        margin: '10px 0',
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '20px',
+    },
+    // Flex container for the hashtags, always in a row
+    tagContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '5px',
+    },
 }));

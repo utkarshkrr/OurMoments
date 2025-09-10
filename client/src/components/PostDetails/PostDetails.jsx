@@ -188,8 +188,8 @@ const PostDetails = () => {
                             <Typography variant="h3" component="h2" style={{ fontWeight: 700 }}>
                                 {post.title}
                             </Typography>
-                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display:'flex', alignItems:'center' }}>
-                                <CalendarTodayIcon style={{fontSize:'1.2rem'}} />
+                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
+                                <CalendarTodayIcon style={{ fontSize: '1.2rem' }} />
                                 &nbsp;
                                 {(() => {
                                     const date = new Date(post.date);
@@ -200,20 +200,20 @@ const PostDetails = () => {
                                     return `${day} ${month} ${year}`;
                                 })()}
                             </Typography>
-                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display:'flex', alignItems:'center' }}>
-                                <LocationOnIcon style={{fontSize:'1.2rem'}} />
+                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
+                                <LocationOnIcon style={{ fontSize: '1.2rem' }} />
                                 &nbsp;
                                 {post.location}
                             </Typography>
                             <Typography variant="body1" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
-                                Created by: <span style={{fontWeight:'700'}}> {post.name} </span>
+                                Created by: <span style={{ fontWeight: '700' }}> {post.name} </span>
                             </Typography>
                             <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-                                <div className={classes.details}>
+                                <div className={classes.tagContainer}>
                                     {post.tags.map((tag, index) => (<span key={index} className={classes.tagChip}>#{tag}</span>))}
                                 </div>
                             </Typography>
-                            <div style={{ margin: '10px 0', display: 'flex', gap: '20px' }}>
+                            <div className={classes.buttonContainer}>
                                 <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
                                     <Likes />
                                 </Button>
@@ -223,7 +223,6 @@ const PostDetails = () => {
                                         <span>{commentCountText()}</span>
                                     </div>
                                 </Button>
-
                                 <Button
                                     size="small"
                                     onClick={handleShare}
