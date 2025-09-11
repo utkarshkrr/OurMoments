@@ -24,6 +24,7 @@ export default makeStyles((theme) => ({
     border: '1px solid #ddd',
     overflow: 'hidden',
     transition: 'all 0.3s ease',
+    zIndex: 2002,
   },
 
   appBarSearchHidden: {

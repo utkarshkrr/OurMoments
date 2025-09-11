@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { 
+import {
     AppBar, Button, Toolbar, Typography, Avatar, Tooltip, ClickAwayListener, Box, Divider,
-    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions 
+    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from "@material-ui/core";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -38,7 +38,7 @@ const Navbar = () => {
     const handleCloseLogoutDialog = () => {
         setOpenLogoutDialog(false);
     };
-    
+
     const handleConfirmLogout = useCallback(() => {
         dispatch({ type: "LOGOUT" });
         setUser(null);
