@@ -3,6 +3,7 @@ import {
     Paper, Typography, Divider, Button, IconButton, Dialog, Slide,
     DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar
 } from '@material-ui/core';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -14,7 +15,7 @@ import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import ShareIcon from '@material-ui/icons/Share';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useParams, useHistory, useLocation, Link } from 'react-router-dom';
 
 import useStyles from './styles';
 import { getPost, getPostsBySearch, likePost, deletePost } from '../../actions/posts';
@@ -170,7 +171,10 @@ const PostDetails = () => {
 
     return (
         <>
-            <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff2d2', }} elevation={6}>
+            <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff2d2', position:'relative' }} elevation={6}>
+                <Link to="/" style={{ textDecoration: 'none', color:'#704e2aff',display:'flex', justifyContent:'center', alignItems:'center', position:'absolute', top:'10px', left:'10px', backgroundColor:'#ffe3c7d3', borderRadius:'50%', padding:'2px', height:'28px', width:'28px' }}>
+                    <ArrowBackIcon style={{transform:'scale(0.67)',}} />
+                </Link>
                 <div className={classes.card}>
                     <div className={classes.section}>
                         <div style={{ padding: '20px', borderRadius: '15px', position: 'relative' }}>
