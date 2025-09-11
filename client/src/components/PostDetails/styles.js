@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     media: {
-        borderRadius: '20px',
+        borderRadius: '10px',
         objectFit: 'cover',
         width: '100%',
         maxWidth: '600px',
@@ -14,13 +14,26 @@ export default makeStyles((theme) => ({
         margin: '4px 0',
         flexWrap: 'wrap',
     },
+    title:{
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '2rem',
+        },
+    },
+    dateLocation: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.9rem',
+        }
+    },
     tagChip: {
         marginRight: '5px',
         padding: '0px 8px',
         borderRadius: '4px',
         color: '#332e18',
         backgroundColor: '#fff1e3ff',
-        marginBottom: '5px'
+        marginBottom: '5px',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.9rem',
+        }
     },
     card: {
         display: 'flex',
@@ -36,6 +49,7 @@ export default makeStyles((theme) => ({
         flex: 1,
         [theme.breakpoints.down('sm')]: {
             order: 2,
+            margin: '10px 0',
         },
     },
     imageSection: {
@@ -50,8 +64,10 @@ export default makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'left',
         gap: '20px',
-        marginTop: '20px', [theme.breakpoints.down('sm')]: {
+        marginTop: '20px',
+        [theme.breakpoints.down('sm')]: {
             justifyContent: 'center',
+            gap: '15px',
         },
     },
     recommendedCard: {
@@ -59,13 +75,16 @@ export default makeStyles((theme) => ({
         flexDirection: 'column',
         borderRadius: '15px',
         overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
         backgroundColor: '#fffff8ff',
         cursor: 'pointer',
         width: '250px',
         transition: 'transform 0.2s ease-in-out',
         '&:hover': {
             transform: 'scale(1.02)',
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
         },
     },
     recommendedImage: {
@@ -144,10 +163,30 @@ export default makeStyles((theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
         gap: '20px',
+        [theme.breakpoints.down('sm')]: {
+            gap: '4px',
+            flexWrap: 'nowrap',
+        },
+    },
+    postActionButton: {
+        [theme.breakpoints.down('sm')]: {
+            transform: 'scale(0.8)' ,
+        },
     },
     tagContainer: {
         display: 'flex',
         flexWrap: 'wrap',
         gap: '5px',
+    },
+    postStory: {
+        [theme.breakpoints.down('sm')]: {
+            textAlign: 'justify',
+        },
+    },
+    commentSection: {
+        width: '70%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        }
     },
 }));

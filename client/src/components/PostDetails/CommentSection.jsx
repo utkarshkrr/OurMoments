@@ -44,7 +44,7 @@ const CommentSection = ({ post }) => {
                     )}
                 </div>
                 {user?.result?.name && (
-                    <div style={{ width: '70%', marginTop: '20px' }}>
+                    <div style={{ marginTop: '20px' }}>
                         <TextField
                             fullWidth
                             minRows={4}

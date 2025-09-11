@@ -176,19 +176,19 @@ const PostDetails = () => {
                         <div style={{ padding: '20px', borderRadius: '15px', backgroundColor: '#fafafa', position: 'relative' }}>
                             {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                                 <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
-                                    <IconButton size="small" onClick={handleEditClick} style={{ color: '#704e2aff', marginRight: '5px' }}>
+                                    <IconButton size="small" onClick={handleEditClick} style={{ color: '#704e2aff', marginRight: '5px', backgroundColor:'#ffe6ccc6' }}>
                                         <EditIcon fontSize="small" />
                                     </IconButton>
-                                    <IconButton size="small" onClick={handleOpenDeleteDialog} style={{ color: 'black' }}>
+                                    <IconButton size="small" onClick={handleOpenDeleteDialog} style={{ color: 'black', backgroundColor:'#ffe6ccc6' }}>
                                         <DeleteIcon fontSize="small" />
                                     </IconButton>
                                 </div>
                             )}
 
-                            <Typography variant="h3" component="h2" style={{ fontWeight: 700 }}>
+                            <Typography variant="h3" component="h2" style={{ fontWeight: 700 }} className={classes.title}>
                                 {post.title}
                             </Typography>
-                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
+                            <Typography className={classes.dateLocation} variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
                                 <CalendarTodayIcon style={{ fontSize: '1.2rem' }} />
                                 &nbsp;
                                 {(() => {
@@ -199,9 +199,7 @@ const PostDetails = () => {
                                     const year = date.getFullYear();
                                     return `${day} ${month} ${year}`;
                                 })()}
-                            </Typography>
-                            <Typography variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
-                                <LocationOnIcon style={{ fontSize: '1.2rem' }} />
+                                <LocationOnIcon style={{ fontSize: '1.2rem', marginLeft: '1rem' }} />
                                 &nbsp;
                                 {post.location}
                             </Typography>
@@ -214,16 +212,17 @@ const PostDetails = () => {
                                 </div>
                             </Typography>
                             <div className={classes.buttonContainer}>
-                                <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
+                                <Button className={classes.postActionButton} size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
                                     <Likes />
                                 </Button>
-                                <Button size="small" disabled={!user?.result} onClick={handleCommentClick}>
+                                <Button className={classes.postActionButton} size="small" disabled={!user?.result} onClick={handleCommentClick}>
                                     <div style={{ display: 'flex', alignItems: 'center', color: '#704e2aff' }}>
                                         <ChatBubbleOutlineIcon fontSize="small" />&nbsp;
                                         <span>{commentCountText()}</span>
                                     </div>
                                 </Button>
                                 <Button
+                                    className={classes.postActionButton}
                                     size="small"
                                     onClick={handleShare}
                                     style={{ color: '#704e2aff' }}
@@ -235,10 +234,10 @@ const PostDetails = () => {
                             </div>
                             <Divider style={{ margin: '20px 0' }} />
                             <Typography variant="h5" gutterBottom style={{ fontWeight: 600 }}>The Story</Typography>
-                            <Typography variant="body1" component="p" style={{ lineHeight: 1.7 }}>{post.message}</Typography>
+                            <Typography className={classes.postStory} variant="body1" component="p" style={{ lineHeight: 1.7 }}>{post.message}</Typography>
                             <Divider style={{ margin: '20px 0' }} />
-                            <div ref={commentsRef}>
-                                <CommentSection post={post} />
+                            <div className={classes.commentSection} ref={commentsRef}>
+                                <CommentSection post={post}/>
                             </div>
                             <Divider style={{ margin: '20px 0' }} />
                         </div>
