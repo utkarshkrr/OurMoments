@@ -13,6 +13,7 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     padding: "5px 50px",
     backgroundColor: "#fffff0ff",
+    zIndex: '2001',
   },
   heading: {
     color: "rgba(0,183,255, 1)",

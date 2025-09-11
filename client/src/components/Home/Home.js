@@ -110,6 +110,7 @@ const Home = () => {
           TransitionComponent={Transition}
           disableEnforceFocus={false}
           disableAutoFocus={false}
+          style={{ zIndex: 2003 }}
         >
           <Form
             currentId={currentId}

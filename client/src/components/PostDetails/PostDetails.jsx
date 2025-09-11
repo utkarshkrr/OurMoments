@@ -170,10 +170,10 @@ const PostDetails = () => {
 
     return (
         <>
-            <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff8ff', }} elevation={6}>
+            <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff2d2', }} elevation={6}>
                 <div className={classes.card}>
                     <div className={classes.section}>
-                        <div style={{ padding: '20px', borderRadius: '15px', backgroundColor: '#fafafa', position: 'relative' }}>
+                        <div style={{ padding: '20px', borderRadius: '15px', position: 'relative' }}>
                             {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
                                 <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
                                     <IconButton size="small" onClick={handleEditClick} style={{ color: '#704e2aff', marginRight: '5px', backgroundColor:'#ffe6ccc6' }}>
@@ -288,7 +288,7 @@ const PostDetails = () => {
                 )}
             </Paper>
 
-            <Dialog open={openForm} onClose={handleCloseForm} fullWidth maxWidth="sm" TransitionComponent={Transition}>
+            <Dialog open={openForm} onClose={handleCloseForm} fullWidth maxWidth="sm" TransitionComponent={Transition} style={{ zIndex: 2003 }}>
                 <Form currentId={currentId} setCurrentId={setCurrentId} closeForm={handleCloseForm} />
             </Dialog>
 
