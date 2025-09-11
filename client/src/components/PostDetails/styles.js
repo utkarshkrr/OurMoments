@@ -32,7 +32,7 @@ export default makeStyles((theme) => ({
         backgroundColor: '#fff1e3ff',
         marginBottom: '5px',
         [theme.breakpoints.down('sm')]: {
-            fontSize: '0.9rem',
+            fontSize: '0.8rem',
         }
     },
     card: {
@@ -169,8 +169,9 @@ export default makeStyles((theme) => ({
         },
     },
     postActionButton: {
+        alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
-            transform: 'scale(0.8)' ,
+            fontSize:'0.7rem'
         },
     },
     tagContainer: {

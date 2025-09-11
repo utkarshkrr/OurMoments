@@ -199,7 +199,9 @@ const PostDetails = () => {
                                     const year = date.getFullYear();
                                     return `${day} ${month} ${year}`;
                                 })()}
-                                <LocationOnIcon style={{ fontSize: '1.2rem', marginLeft: '1rem' }} />
+                            </Typography>
+                            <Typography className={classes.dateLocation} variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
+                                <LocationOnIcon style={{ fontSize: '1.2rem'}} />
                                 &nbsp;
                                 {post.location}
                             </Typography>
