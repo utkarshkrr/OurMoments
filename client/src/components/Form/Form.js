@@ -53,7 +53,7 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
     return (
         <Paper className={classes.paper} elevation={6}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h4">{currentId ? 'Editing' : 'Creating'} a Memory</Typography>
+                <Typography variant="h4" style={{textAlign:"center"}}>{currentId ? 'Editing' : 'Creating'} a Memory</Typography>
                 <TextField name="title" variant="outlined" label="Title" required fullWidth value={postData.title}
                     onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", width: "100%" }}>
@@ -93,14 +93,9 @@ const Form = ({ currentId, setCurrentId, closeForm }) => {
                             onDone={({ base64, type }) => setPostData({ ...postData, selectedFile: base64, fileType: type })}
                             style={{ display: 'none' }}
                         />
-                         <Button
-                            variant="outlined"
-                            component="span"
-                            fullWidth
-                            style={{marginTop:"5px"}}
-                        >
+                        <div style={{ padding: '10px',fontFamily: 'Roboto, sans-serif', display: 'inline-block', }}>
                             {postData.selectedFile ? 'Change File' : 'Add Image or Video'}
-                        </Button>
+                        </div>
                     </label>
                 </div>
                 <div className={classes.formButtonContainer}>

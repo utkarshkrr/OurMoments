@@ -32,6 +32,9 @@ const Navbar = () => {
 
     const handleOpenLogoutDialog = (e) => {
         e.stopPropagation();
+        
+        handleTooltipClose(); 
+
         setOpenLogoutDialog(true);
     };
 
@@ -47,7 +50,6 @@ const Navbar = () => {
         handleCloseLogoutDialog();
     }, [dispatch, history]);
 
-    // The useEffect now has simple, well-defined dependencies
     useEffect(() => {
         if (token) {
             const decodedToken = decode(token);

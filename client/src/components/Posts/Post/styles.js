@@ -20,6 +20,11 @@ export default makeStyles({
     height: '100%',
     backgroundColor: '#fffff8ff',
     position: 'relative',
+    transition: 'all 0.2s',
+    '&:hover': {
+    transform: 'scale(1.02)',
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+  },
   },
   overlay: {
     position: 'absolute',
