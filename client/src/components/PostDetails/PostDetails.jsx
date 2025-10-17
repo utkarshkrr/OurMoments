@@ -257,7 +257,7 @@ const PostDetails = () => {
                     </div>
                 </div>
 
-                <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl">
+                <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl" style={{zIndex:'2002'}}>
                     <div style={{ position: 'relative', background: 'black' }}>
                         <IconButton onClick={() => setOpenImage(false)} style={{ position: 'absolute', top: 10, right: 10, color: 'white', zIndex: 10 }}><CloseIcon /></IconButton>
                         {isVideo(post.selectedFile) ? (

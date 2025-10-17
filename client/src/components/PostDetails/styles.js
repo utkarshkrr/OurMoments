@@ -29,7 +29,7 @@ export default makeStyles((theme) => ({
         padding: '0px 8px',
         borderRadius: '4px',
         color: '#332e18',
-        backgroundColor: '#fff1e3ff',
+        backgroundColor: '#ffe7cfff',
         marginBottom: '5px',
         [theme.breakpoints.down('sm')]: {
             fontSize: '0.8rem',
