@@ -31,7 +31,7 @@ export default makeStyles({
     top: '20px',
     left: '20px',
     color: 'white',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.35)',
     padding: '10px',
     borderRadius: '10px',
   },
@@ -40,6 +40,8 @@ export default makeStyles({
     top: '20px',
     right: '20px',
     color: 'white',
+    backgroundColor: 'rgba(0, 0, 0, 0.35)',
+    borderRadius: '10px',
   },
   grid: {
     display: 'flex',
