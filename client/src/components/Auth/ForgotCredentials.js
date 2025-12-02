@@ -44,8 +44,8 @@ const ForgotCredentials = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper className={classes.paper} elevation={5} style={{ marginTop: "120px" }}>
+    <Container component="main" maxWidth="xs" style={{ overflow: "hidden" }}>
+      <Paper className={classes.paper} elevation={0} style={{ marginTop: "60px", border: "3px solid #aeaeaeff" }}>
         <Typography variant="h4">Reset Credentials</Typography>
         <form
           className={`${classes.root} ${classes.form}`}
@@ -87,7 +87,7 @@ const ForgotCredentials = () => {
           >
             Update
           </Button>
-          <Button fullWidth onClick={() => history.push('/auth')}>
+          <Button fullWidth onClick={() => history.push('/auth')} >
             Back to Sign In
           </Button>
         </form>

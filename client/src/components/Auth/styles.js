@@ -8,7 +8,9 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     padding: 30,
     borderRadius:'30px',
-    backgroundColor:'#fefeebff'
+    backgroundColor:'#fefeeb34',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)', 
   },
   root: {
     '& .MuiTextField-root': {

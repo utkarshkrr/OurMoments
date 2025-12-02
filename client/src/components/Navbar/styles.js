@@ -49,7 +49,7 @@ export default makeStyles((theme) => ({
   },
   image: {
     marginLeft: "20px",
-    height: "100px",
+    height: "80px",
     [theme.breakpoints.down('sm')]: {
       height: "60px",
     },

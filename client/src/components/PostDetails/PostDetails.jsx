@@ -171,7 +171,9 @@ const PostDetails = () => {
 
     return (
         <>
-            <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff2d2', position:'relative' }} elevation={6}>
+            <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff28b',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',  position:'relative' }} elevation={6}>
                 <Link to="/" style={{ textDecoration: 'none', color:'#704e2aff',display:'flex', justifyContent:'center', alignItems:'center', position:'absolute', top:'10px', left:'10px', backgroundColor:'#ffe3c7d3', borderRadius:'50%', padding:'2px', height:'28px', width:'28px' }}>
                     <ArrowBackIcon style={{transform:'scale(0.67)',}} />
                 </Link>
@@ -192,6 +194,9 @@ const PostDetails = () => {
                             <Typography variant="h3" component="h2" style={{ fontWeight: 700 }} className={classes.title}>
                                 {post.title}
                             </Typography>
+                            <Typography variant="h6" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
+                                Created by: <span style={{ fontWeight: '700' }}> {post.name} </span>
+                            </Typography>
                             <Typography className={classes.dateLocation} variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
                                 <CalendarTodayIcon style={{ fontSize: '1.2rem' }} />
                                 &nbsp;
@@ -208,9 +213,6 @@ const PostDetails = () => {
                                 <LocationOnIcon style={{ fontSize: '1.2rem'}} />
                                 &nbsp;
                                 {post.location}
-                            </Typography>
-                            <Typography variant="body1" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
-                                Created by: <span style={{ fontWeight: '700' }}> {post.name} </span>
                             </Typography>
                             <Typography variant="subtitle1" color="textSecondary" gutterBottom>
                                 <div className={classes.tagContainer}>
@@ -281,9 +283,9 @@ const PostDetails = () => {
                                         <img src={selectedFile || 'https://res.cloudinary.com/dzenc4jcg/image/upload/v1755523829/imageNotFound_cxnpkh.png'} alt={title} className={classes.recommendedImage} />
                                     )}
                                     <div className={classes.recommendedContent}>
-                                        <Typography variant="h6" style={{ fontWeight: '600' }}>{title}</Typography>
                                         <Typography variant="subtitle2">{name}</Typography>
-                                        <Typography variant="body2" color="textSecondary">{message.length > 30 ? `${message.substring(0, 30)}...` : message}</Typography>
+                                        <Typography variant="h6" style={{ fontWeight: '600' }}>{title.length > 20 ? `${title.substring(0, 20)}...` : title}</Typography>
+                                        <Typography variant="body2" color="white">{message.length > 30 ? `${message.substring(0, 30)}...` : message}</Typography>
                                     </div>
                                 </div>
                             ))}
