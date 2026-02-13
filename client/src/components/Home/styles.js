@@ -9,7 +9,7 @@ export default makeStyles((theme) => ({
   },
   appBarSearch: {
     position: 'fixed',
-    top: 20,
+    top: 8,
     right: 0,
     left: 0,
     borderRadius: 12,
@@ -18,10 +18,10 @@ export default makeStyles((theme) => ({
     maxWidth: 800,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '8px',
-    padding: '10px',
+    gap: '6px',
+    padding: '4px 6px',
     backgroundColor:'#fffff0ff',
-    border: '1px solid #ddd',
+    border: '1px solid #afa396',
     overflow: 'hidden',
     transition: 'all 0.3s ease',
     zIndex: 2002,
@@ -37,7 +37,7 @@ export default makeStyles((theme) => ({
   },
 
   searchInput: {
-    minWidth: '250px',
+    minWidth: '220px',
     '& .MuiOutlinedInput-root': {
       height: '50px',
       borderRadius: '8px',
@@ -46,7 +46,7 @@ export default makeStyles((theme) => ({
   },
 
   chipInput: {
-    minWidth: '250px',
+    minWidth: '220px',
     '& .MuiOutlinedInput-root': {
       height: '50px',
       borderRadius: '8px',
