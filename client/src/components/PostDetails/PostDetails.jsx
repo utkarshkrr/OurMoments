@@ -191,11 +191,16 @@ const PostDetails = () => {
                                 </div>
                             )}
 
+                            <Typography variant="h6" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
+                                Created by: <span style={{ fontWeight: '700' }}> {post.name} </span>
+                            </Typography>
                             <Typography variant="h3" component="h2" style={{ fontWeight: 700 }} className={classes.title}>
                                 {post.title}
                             </Typography>
-                            <Typography variant="h6" gutterBottom color="textSecondary" style={{ margin: '4px 0' }}>
-                                Created by: <span style={{ fontWeight: '700' }}> {post.name} </span>
+                            <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+                                <div className={classes.tagContainer}>
+                                    {post.tags.map((tag, index) => (<span key={index} className={classes.tagChip}>#{tag}</span>))}
+                                </div>
                             </Typography>
                             <Typography className={classes.dateLocation} variant="body1" style={{ color: "#704e2aff", margin: '3px 0', display: 'flex', alignItems: 'center' }}>
                                 <CalendarTodayIcon style={{ fontSize: '1.2rem' }} />
@@ -213,11 +218,6 @@ const PostDetails = () => {
                                 <LocationOnIcon style={{ fontSize: '1.2rem'}} />
                                 &nbsp;
                                 {post.location}
-                            </Typography>
-                            <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-                                <div className={classes.tagContainer}>
-                                    {post.tags.map((tag, index) => (<span key={index} className={classes.tagChip}>#{tag}</span>))}
-                                </div>
                             </Typography>
                             <div className={classes.buttonContainer}>
                                 <Button className={classes.postActionButton} size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
@@ -285,7 +285,6 @@ const PostDetails = () => {
                                     <div className={classes.recommendedContent}>
                                         <Typography variant="subtitle2">{name}</Typography>
                                         <Typography variant="h6" style={{ fontWeight: '600' }}>{title.length > 20 ? `${title.substring(0, 20)}...` : title}</Typography>
-                                        <Typography variant="body2" color="white">{message.length > 30 ? `${message.substring(0, 30)}...` : message}</Typography>
                                     </div>
                                 </div>
                             ))}
