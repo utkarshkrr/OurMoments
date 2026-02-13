@@ -45,18 +45,8 @@ const Post = ({ post, setCurrentId }) => {
     const date = new Date(post.date);
     const day = date.getDate();
     const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     ];
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
@@ -77,7 +67,7 @@ const Post = ({ post, setCurrentId }) => {
     };
 
     const handleOpenDialog = (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // Stops the Card's onClick from firing
         setOpenDialog(true);
     };
 
@@ -85,7 +75,8 @@ const Post = ({ post, setCurrentId }) => {
         setOpenDialog(false);
     };
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = (e) => {
+        e.stopPropagation(); // Stops the Card's onClick from firing
         dispatch(deletePost(post._id));
         setOpenDialog(false);
     };
@@ -125,7 +116,7 @@ const Post = ({ post, setCurrentId }) => {
     };
 
     const Comments = () => {
-        const commentColor = "#FFB74D"; // brighter comment color
+        const commentColor = "#FFB74D"; 
         return (
             <div
                 style={{ display: "flex", alignItems: "center", color: commentColor }}
@@ -152,7 +143,6 @@ const Post = ({ post, setCurrentId }) => {
     return (
         <>
             <Card className={classes.card} raised elevation={4} onClick={openPost}>
-                {/* Media */}
                 {isVideo(post.selectedFile) ? (
                     <video
                         className={classes.media}
@@ -172,7 +162,6 @@ const Post = ({ post, setCurrentId }) => {
                     />
                 )}
 
-                {/* Top-left overlay: author, date, location */}
                 <div className={classes.overlay}>
                     <Typography variant="body1" style={{fontWeight:"700"}}>{post.name}</Typography>
                     <Typography
@@ -191,7 +180,6 @@ const Post = ({ post, setCurrentId }) => {
                     </Typography>
                 </div>
 
-                {/* Top-right overlay: edit */}
                 {isCreator && (
                     <div className={classes.overlay2} name="edit">
                         <IconButton
@@ -204,11 +192,9 @@ const Post = ({ post, setCurrentId }) => {
                         >
                             <EditIcon fontSize="small" />
                         </IconButton>
-
                     </div>
                 )}
 
-                {/* Bottom overlay: title always, rest on hover */}
                 <div className={classes.bottomOverlay}>
                     <Typography
                         className={classes.title}
@@ -221,79 +207,55 @@ const Post = ({ post, setCurrentId }) => {
                                 : post.title}
                     </Typography>
 
-                    <div className={classes.hoverContent}>
-                        <div className={classes.details}>
-                            {post.tags.map((tag, index) => (
-                                <span key={index} className={classes.tagChip}>
-                                    #{tag}
-                                </span>
-                            ))}
+                    <div className={classes.actionRow}>
+                        <div className={classes.leftActions}>
+                            <Button
+                                size="small"
+                                color="primary"
+                                disabled={!user?.result}
+                                onClick={handleLike}
+                                className={classes.compactButton}
+                            >
+                                <Likes />
+                            </Button>
+                            <Button
+                                size="small"
+                                onClick={handleCommentClick}
+                                className={classes.compactButton}
+                            >
+                                <Comments />
+                            </Button>
+                            <IconButton
+                                size="small"
+                                onClick={handleShare}
+                                className={classes.iconCompactButton}
+                            >
+                                <ShareIcon fontSize="small" style={{ transform: "scale(0.9)" }} />
+                            </IconButton>
                         </div>
 
-                        <Typography
-                            variant="body2"
-                            component="p"
-                            className={classes.message}
-                        >
-                            {post.message.length > 55
-                                ? `${post.message.substring(0, 55)}...`
-                                : post.message}
-                        </Typography>
-
-                        <div className={classes.actionRow}>
-                            {/* Left side: like, comment, share */}
-                            <div className={classes.leftActions}>
-                                <Button
-                                    size="small"
-                                    color="primary"
-                                    disabled={!user?.result}
-                                    onClick={handleLike}
-                                    className={classes.compactButton}
-                                >
-                                    <Likes />
-                                </Button>
-                                <Button
-                                    size="small"
-                                    onClick={handleCommentClick}
-                                    className={classes.compactButton}
-                                >
-                                    <Comments />
-                                </Button>
-                                <IconButton
-                                    size="small"
-                                    onClick={handleShare}
-                                    className={classes.iconCompactButton}
-                                >
-                                    <ShareIcon fontSize="small" style={{ transform: "scale(0.9)" }} />
-                                </IconButton>
-                            </div>
-
-                            {/* Right side: delete */}
-                            {isCreator && (
-                                <IconButton
-                                    size="small"
-                                    onClick={handleOpenDialog}
-                                    className={classes.iconDeleteButton}
-                                >
-                                    <DeleteIcon fontSize="small" />
-                                </IconButton>
-                            )}
-                        </div>
+                        {isCreator && (
+                            <IconButton
+                                size="small"
+                                onClick={handleOpenDialog}
+                                className={classes.iconDeleteButton}
+                            >
+                                <DeleteIcon fontSize="small" />
+                            </IconButton>
+                        )}
                     </div>
                 </div>
 
-                {/* Delete confirmation dialog */}
                 <Dialog
                     open={openDialog}
                     onClose={handleCloseDialog}
+                    onClick={(e) => e.stopPropagation()} // Prevents post opening when clicking background of dialog
                     aria-labelledby="confirm-delete-title"
-                    aria-describedby="confirm-delete-description"
                 >
                     <DialogTitle id="confirm-delete-title">{"Confirm Deletion"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="confirm-delete-description">
-                            Are you sure you want to delete this post? This action cannot be
-                            undone.
+                        <DialogContentText>
+                            Are you sure you want to delete this post? This action cannot be undone.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions
@@ -311,7 +273,10 @@ const Post = ({ post, setCurrentId }) => {
                             Delete
                         </Button>
                         <Button
-                            onClick={handleCloseDialog}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleCloseDialog();
+                            }}
                             className={classes.cancelDeleteButton}
                         >
                             Cancel
@@ -320,13 +285,11 @@ const Post = ({ post, setCurrentId }) => {
                 </Dialog>
             </Card>
 
-            {/* Snackbar OUTSIDE the card so it always sticks to viewport bottom */}
             <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={3000}
                 onClose={handleSnackbarClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                disablePortal={false}
             >
                 <Alert
                     onClose={handleSnackbarClose}
@@ -338,7 +301,6 @@ const Post = ({ post, setCurrentId }) => {
             </Snackbar>
         </>
     );
-
 };
 
 export default Post;
