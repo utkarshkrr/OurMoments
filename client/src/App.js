@@ -1,6 +1,12 @@
 import React from "react";
-import { Container } from '@material-ui/core';
-import { BrowserRouter, Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Container } from "@material-ui/core";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+  useLocation,
+} from "react-router-dom";
 
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/navbar";
@@ -8,7 +14,6 @@ import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
 import PrivateRoute from "./PrivateRoute";
 import ForgotCredentials from "./components/Auth/ForgotCredentials";
-
 
 const App = () => (
   <BrowserRouter>
@@ -18,24 +23,35 @@ const App = () => (
 
 const AppContent = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== "/auth" && location.pathname !== "/forgot";
+  const showNavbar =
+    location.pathname !== "/auth" && location.pathname !== "/forgot";
+
   return (
     <Container maxWidth="xl">
       {showNavbar && <Navbar />}
-      <Switch>
-        {/* Public route */}
-        <Route path="/auth" exact component={Auth} />
 
-        {/* Private routes */}
-        <PrivateRoute path="/" exact component={() => <Redirect to="/posts" />} />
-        <PrivateRoute path="/posts" exact component={Home} />
-        <PrivateRoute path="/posts/search" exact component={Home} />
-        <PrivateRoute path="/posts/:id" component={PostDetails} />
+      <Switch>
+        {/* Public routes */}
+        <Route path="/auth" exact component={Auth} />
         <Route path="/forgot" exact component={ForgotCredentials} />
 
+        {/* Private routes */}
+        <PrivateRoute exact path="/">
+          <Redirect to="/posts" />
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/posts" component={Home} />
+        <PrivateRoute exact path="/posts/search" component={Home} />
+        <PrivateRoute path="/posts/:id" component={PostDetails} />
+
+        {/* Catch-all route */}
+        <Route path="*">
+          <Redirect to="/auth" />
+        </Route>
       </Switch>
     </Container>
   );
 };
+
 
 export default App;
