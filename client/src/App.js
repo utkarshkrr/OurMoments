@@ -14,6 +14,7 @@ import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
 import PrivateRoute from "./PrivateRoute";
 import ForgotCredentials from "./components/Auth/ForgotCredentials";
+import HomePage from "./components/HomePage";
 
 const App = () => (
   <BrowserRouter>
@@ -36,9 +37,7 @@ const AppContent = () => {
         <Route path="/forgot" exact component={ForgotCredentials} />
 
         {/* Private routes */}
-        <PrivateRoute exact path="/">
-          <Redirect to="/posts" />
-        </PrivateRoute>
+        <PrivateRoute exact path="/" component={HomePage} />
 
         <PrivateRoute exact path="/posts" component={Home} />
         <PrivateRoute exact path="/posts/search" component={Home} />

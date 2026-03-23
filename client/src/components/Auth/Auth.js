@@ -42,7 +42,7 @@ const Auth = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("profile"));
     if (user) {
-      history.push("/posts");
+      history.push("/");
     }
   }, [history]);
 
