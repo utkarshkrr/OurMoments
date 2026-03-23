@@ -52,7 +52,7 @@ const HomePage = () => {
 
     setTextF(`${f.years} years of friendship`);
     setTextR(`Together for ${formatDuration(r)} with forever to go`);
-  }, []);
+  }, [dateF, dateR]); // ✅ FIXED
 
   const handleClick = (e) => {
     setPos({ x: e.clientX, y: e.clientY });
@@ -159,30 +159,38 @@ const HomePage = () => {
         />
       )}
 
-      <div className="bg" style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "20px 15px",
-        textAlign: "center",
-      }}>
-        <div className="content" style={{
-          maxWidth: "1200px",
-          width: "100%",
-          zIndex: 1,
-          marginTop: "30px",
-        }}>
+      <div
+        className="bg"
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px 15px",
+          textAlign: "center",
+        }}
+      >
+        <div
+          className="content"
+          style={{
+            maxWidth: "1200px",
+            width: "100%",
+            zIndex: 1,
+            marginTop: "30px",
+          }}
+        >
           
-          <Typography style={{
-            fontFamily: "'Allura', cursive",
-            color: "#3e2a1ae0",
-            lineHeight: 1.8,
-            marginTop: "60px",
-            fontSize: "clamp(1.6rem, 2.5vw, 1.75rem)",
-            textShadow: "0 2px 10px rgba(255, 255, 255, 0.4)",
-            padding: "0 10px",
-          }}>
+          <Typography
+            style={{
+              fontFamily: "'Allura', cursive",
+              color: "#3e2a1ae0",
+              lineHeight: 1.8,
+              marginTop: "60px",
+              fontSize: "clamp(1.6rem, 2.5vw, 1.75rem)",
+              textShadow: "0 2px 10px rgba(255, 255, 255, 0.4)",
+              padding: "0 10px",
+            }}
+          >
             Some moments are too special to be lost in time. The quiet meets, the surprises, the hugs, laughs, the walks, the random late-night talks, the little things are the ones that mean everything.  
             <br />
             This is for us, this space is ours. A place where memories don’t fade, where every photo, every word, every feeling stays alive just the way we felt it.  
@@ -191,25 +199,29 @@ const HomePage = () => {
             <br />❤️
           </Typography>
 
-          <Typography style={{
-            fontFamily: "'Allura', cursive",
-            color: "#885f00",
-            marginBottom: "6px",
-            fontSize: "1.9rem",
-            fontWeight: "700",
-            opacity: 0.85,
-          }}>
+          <Typography
+            style={{
+              fontFamily: "'Allura', cursive",
+              color: "#885f00",
+              marginBottom: "6px",
+              fontSize: "1.9rem",
+              fontWeight: "700",
+              opacity: 0.85,
+            }}
+          >
             {TextF}
           </Typography>
 
-          <Typography style={{
-            fontFamily: "'Allura', cursive",
-            color: "#FA003F",
-            marginBottom: "25px",
-            fontSize: "2rem",
-            fontWeight: "700",
-            opacity: 0.85,
-          }}>
+          <Typography
+            style={{
+              fontFamily: "'Allura', cursive",
+              color: "#FA003F",
+              marginBottom: "25px",
+              fontSize: "2rem",
+              fontWeight: "700",
+              opacity: 0.85,
+            }}
+          >
             {TextR}
           </Typography>
 
