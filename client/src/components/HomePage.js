@@ -187,7 +187,7 @@ const HomePage = () => {
               lineHeight: 1.8,
               marginTop: "60px",
               fontSize: "clamp(1.6rem, 2.5vw, 1.75rem)",
-              textShadow: "0 2px 10px rgba(255, 255, 255, 0.4)",
+              textShadow: "0 0px 10px rgb(255, 244, 129)",
               padding: "0 10px",
             }}
           >
@@ -206,6 +206,7 @@ const HomePage = () => {
               marginBottom: "6px",
               fontSize: "1.9rem",
               fontWeight: "700",
+              textShadow: "0 0px 10px rgb(255, 244, 129)",
               opacity: 0.85,
             }}
           >
@@ -219,6 +220,7 @@ const HomePage = () => {
               marginBottom: "25px",
               fontSize: "2rem",
               fontWeight: "700",
+              textShadow: "0 0px 10px #ff5a83",
               opacity: 0.85,
             }}
           >
