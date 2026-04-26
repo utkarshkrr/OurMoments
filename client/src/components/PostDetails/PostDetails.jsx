@@ -174,7 +174,7 @@ const PostDetails = () => {
             <Paper style={{ padding: '20px', borderRadius: '15px', marginTop: '120px', backgroundColor: '#fffff28b',
     backdropFilter: 'blur(4px)',
     WebkitBackdropFilter: 'blur(4px)',  position:'relative' }} elevation={6}>
-                <Link to="/" style={{ textDecoration: 'none', color:'#704e2aff',display:'flex', justifyContent:'center', alignItems:'center', position:'absolute', top:'10px', left:'10px', backgroundColor:'#ffe3c7d3', borderRadius:'50%', padding:'2px', height:'28px', width:'28px' }}>
+                <Link to="/posts" style={{ textDecoration: 'none', color:'#704e2aff',display:'flex', justifyContent:'center', alignItems:'center', position:'absolute', top:'10px', left:'10px', backgroundColor:'#ffe3c7d3', borderRadius:'50%', padding:'2px', height:'28px', width:'28px' }}>
                     <ArrowBackIcon style={{transform:'scale(0.67)',}} />
                 </Link>
                 <div className={classes.card}>
